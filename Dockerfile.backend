@@ -1,15 +1,17 @@
-# Dockerfile
+# Use Node.js base image
 FROM node:18-alpine
 
+# Set working directory inside the container
 WORKDIR /app
 
-COPY server/package*.json ./
-
+# Install backend dependencies
+COPY package*.json ./
 RUN npm install
 
-COPY server/ .
+# Copy the backend source
+COPY . .
 
 EXPOSE 5000
 
+# Start the Node.js app
 CMD ["npm", "start"]
-
