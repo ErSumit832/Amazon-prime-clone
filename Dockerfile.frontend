@@ -1,17 +1,23 @@
-# Dockerfile
+# Use lightweight Node.js image
 FROM node:18-alpine
 
+# Set working directory inside the container
 WORKDIR /app
 
-COPY client/package*.json ./
-
+# Install dependencies
+COPY package*.json ./
 RUN npm install
 
-COPY client/ .
+# Copy the rest of the app
+COPY . .
 
+# Build the React app
 RUN npm run build
+
+# Use a basic web server for the build output
+RUN npm install -g serve
 
 EXPOSE 3000
 
-CMD ["npm", "start"]
-
+# Serve the built app
+CMD ["serve", "-s", "build", "-l", "3000"]
